@@ -56,16 +56,21 @@ export class Partie {
     getJoueurById(socketId){
         return this.joueurs.find((joueur) => joueur.socketId == socketId);
     }
+
+    // majScore(socketId){
+    //     this.scores
+    // }
 }
 
 
 /**
  * Classe représentant un joueur.
  * ┌──────────────────┐
- * │    Partie        │
+ * │    Joueur        │
  * ├──────────────────┤
  * │ - nom            │
- * │ - socketId       │
+ * │ - socketId       |
+ * | - score          │
  * ├──────────────────┤
  * └──────────────────┘
  */
@@ -73,6 +78,10 @@ class Joueur {
     constructor(socketId, nom){
         this.nom = nom;
         this.socketId = socketId;
+        this.score = 0;
+    }
+    incrementeScore(){
+        this.score++;
     }
 
 }

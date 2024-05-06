@@ -31,21 +31,28 @@ io.on("connection", (socket) => {
   // Informe les clients
   io.emit('maj-joueurs', partie.joueurs);
 
-  // On écoute des évènements sur le socket
+  // On écoute des évènements sur le socket+
   socket.on('click-cible',  (numeroCible) => {
     if (numeroCible == partie.numeroCible){
+      let joueur = partie.getJoueurById(socket.id);
+      console.log(joueur);
+      joueur.incrementeScore();
+
       partie.nouvelleCible();
       // Envoie le message 'nouvelle-cible à tous les sockets.
       io.emit('nouvelle-cible', partie.numeroCible);
       // Envoie le message 'gagne' seulement à ce socket.
       socket.emit('gagne');
+      io.emit('maj-joueurs', partie.joueurs);
     }
   });
 
   socket.on('disconnect', () => {
     console.log(`le joueur ${socket.id} s'est déconnecté`);
+    partie.supprimeJoueur(socket.id);
+    io.emit('maj-joueurs', partie.joueurs);
+    
   });
-
 });
 
 // Lance le serveur.

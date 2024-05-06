@@ -2,6 +2,7 @@ const socket = io();
 const jeuxDiv = document.getElementById('jeu');
 const gagneDiv = document.getElementById('gagne');
 const joueursTable = document.getElementById('tableau-joueurs');
+const scoreTable = document.getElementById('score-joueuurs');
 
 // Gère le click sur une cible
 function clickCible(event){
@@ -51,10 +52,15 @@ socket.on('gagne', function(){
 
 
 socket.on('maj-joueurs',function (joueurs){
+    console.log(joueurs)
     joueursTable.innerHTML = '';
     for(const joueur of joueurs){
         const ligne = joueursTable.insertRow();
         let nomTd = ligne.insertCell();
         nomTd.textContent = joueur.nom;
+
+        let scoreTd = ligne.insertCell();
+        scoreTd.textContent = joueur.score;
     }
 });
+
